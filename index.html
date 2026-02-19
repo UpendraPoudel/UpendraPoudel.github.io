@@ -705,45 +705,41 @@
         <div class="cv-entry">
           <div class="cv-dot" aria-hidden="true"></div>
           <div>
-            <div class="cv-t">
-              <a href="https://www.dali.edu.cn/english/" target="_blank" rel="noopener noreferrer" class="cv-link">Masters in Internal Medicine (M.D)</a>
-            </div>
-            <div class="cv-s">Dali University, China</div>
+            <div class="cv-t">Masters in Internal Medicine (M.D)</div>
+            <div class="cv-s"><a href="https://www.dali.edu.cn/english/" target="_blank" rel="noopener noreferrer" class="cv-link">Dali University</a>, China</div>
           </div>
         </div>
         <div class="cv-entry">
           <div class="cv-dot" aria-hidden="true"></div>
           <div>
-            <div class="cv-t">
-              <a href="https://www.auf.edu.ph/" target="_blank" rel="noopener noreferrer" class="cv-link">Doctor of Medicine (M.D)</a>
-            </div>
-            <div class="cv-s">Angeles University Foundation, Philippines</div>
+            <div class="cv-t">Doctor of Medicine (M.D)</div>
+            <div class="cv-s"><a href="https://www.auf.edu.ph/" target="_blank" rel="noopener noreferrer" class="cv-link">Angeles University Foundation</a>, Philippines</div>
           </div>
         </div>
       </div>
 
       <!-- Work Experience -->
       <div class="cv-block">
-        <div class="cv-label">💼 Work Experience</div>
+        <div class="cv-label">💼 Professional Work Experience</div>
         <div class="cv-entry">
           <div class="cv-dot" aria-hidden="true"></div>
           <div>
-            <div class="cv-t">Emergency Room Medical Officer</div>
-            <div class="cv-s">Norvic International Hospital, Kathmandu</div>
+            <div class="cv-t">Emergency Department Physician</div>
+            <div class="cv-s"><span class="hosp-link" data-hospital="norvic">Norvic International Hospital</span> · Kathmandu, Nepal</div>
           </div>
         </div>
         <div class="cv-entry">
           <div class="cv-dot" aria-hidden="true"></div>
           <div>
-            <div class="cv-t">CCU Medical Officer</div>
-            <div class="cv-s">Nepal Mediciti, Kathmandu</div>
+            <div class="cv-t">Coronary Care Unit (CCU) Physician</div>
+            <div class="cv-s"><span class="hosp-link" data-hospital="mediciti">Nepal Mediciti</span> · Kathmandu, Nepal</div>
           </div>
         </div>
         <div class="cv-entry">
           <div class="cv-dot" aria-hidden="true"></div>
           <div>
-            <div class="cv-t">Medical Officer</div>
-            <div class="cv-s">Deepjyoti Hospital, Ghorahi, Dang</div>
+            <div class="cv-t">General Physician</div>
+            <div class="cv-s"><span class="hosp-link" data-hospital="deepjyoti">Deepjyoti Hospital</span> · Ghorahi, Dang, Nepal</div>
           </div>
         </div>
         <div class="cv-entry">
@@ -780,7 +776,7 @@
           <span class="lang-pill" role="listitem">English</span>
           <span class="lang-pill" role="listitem">Hindi</span>
           <span class="lang-pill" role="listitem">Tagalog</span>
-          <span class="lang-pill" role="listitem">Chinese</span>
+          <span class="lang-pill" role="listitem">Mandarin (Chinese)</span>
         </div>
       </div>
 
@@ -804,9 +800,243 @@
     </div>
   </footer>
 
+  <!-- HOSPITAL INFO SIDE PANEL -->
+  <div id="hosp-panel" class="hosp-panel" role="dialog" aria-modal="true" aria-labelledby="hosp-panel-name" hidden>
+    <div class="hosp-panel-overlay" id="hosp-overlay"></div>
+    <div class="hosp-panel-drawer">
+      <button class="hosp-panel-close" id="hosp-close" aria-label="Close">&times;</button>
+      <div class="hosp-panel-img-wrap" id="hosp-img-wrap">
+        <img id="hosp-panel-img" src="" alt="" loading="lazy">
+      </div>
+      <div class="hosp-panel-body">
+        <div class="hosp-panel-tag" id="hosp-panel-tag"></div>
+        <h3 class="hosp-panel-name" id="hosp-panel-name"></h3>
+        <div class="hosp-panel-loc" id="hosp-panel-loc"></div>
+        <p class="hosp-panel-desc" id="hosp-panel-desc"></p>
+        <div class="hosp-panel-facts" id="hosp-panel-facts"></div>
+        <a class="hosp-panel-btn" id="hosp-panel-link" href="#" target="_blank" rel="noopener noreferrer">Visit Official Website ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .hosp-link {
+      color: var(--green);
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: color 0.18s;
+    }
+    .hosp-link:hover { color: var(--green-mid); }
+
+    .hosp-panel { position: fixed; inset: 0; z-index: 500; pointer-events: none; }
+    .hosp-panel:not([hidden]) { pointer-events: all; }
+
+    .hosp-panel-overlay {
+      position: absolute; inset: 0;
+      background: rgba(15,25,35,0.38);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .hosp-panel.open .hosp-panel-overlay { opacity: 1; }
+
+    .hosp-panel-drawer {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: min(420px, 100vw);
+      background: #f5faf7;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+    }
+    .hosp-panel.open .hosp-panel-drawer { transform: translateX(0); }
+
+    .hosp-panel-close {
+      position: absolute; top: 14px; right: 16px;
+      background: rgba(255,255,255,0.85);
+      border: none; border-radius: 50%;
+      width: 34px; height: 34px;
+      font-size: 1.3rem; line-height: 1;
+      cursor: pointer; color: var(--text-sub);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: background 0.18s, color 0.18s;
+      z-index: 10;
+    }
+    .hosp-panel-close:hover { background: white; color: var(--text); }
+
+    .hosp-panel-img-wrap {
+      width: 100%; height: 200px; flex-shrink: 0;
+      overflow: hidden; background: var(--green-light);
+    }
+    .hosp-panel-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .hosp-panel-body { padding: 1.5rem 1.6rem 2.5rem; }
+
+    .hosp-panel-tag {
+      display: inline-block;
+      background: var(--green-light); color: var(--green);
+      font-size: 0.7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      padding: 3px 10px; border-radius: 20px;
+      margin-bottom: 0.7rem;
+    }
+    .hosp-panel-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--text); margin-bottom: 0.3rem; line-height: 1.3;
+    }
+    .hosp-panel-loc {
+      font-size: 0.8rem; color: var(--text-sub);
+      margin-bottom: 1rem;
+    }
+    .hosp-panel-desc {
+      font-size: 0.88rem; color: var(--text);
+      line-height: 1.7; margin-bottom: 1.2rem;
+    }
+    .hosp-panel-facts {
+      display: flex; flex-direction: column; gap: 0.55rem;
+      margin-bottom: 1.5rem;
+    }
+    .hosp-fact {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      font-size: 0.82rem; color: var(--text);
+      background: white; border-radius: var(--r-sm);
+      padding: 0.55rem 0.8rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .hosp-fact-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .hosp-panel-btn {
+      display: block; text-align: center;
+      background: linear-gradient(135deg, var(--green), var(--green-mid));
+      color: white; text-decoration: none;
+      padding: 0.75rem 1.5rem; border-radius: 30px;
+      font-size: 0.85rem; font-weight: 600;
+      box-shadow: 0 4px 14px rgba(26,122,74,0.28);
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .hosp-panel-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,122,74,0.38); }
+    .hosp-panel-btn.hidden { display: none; }
+
+    @media (max-width: 480px) {
+      .hosp-panel-drawer { width: 100vw; }
+      .hosp-panel-img-wrap { height: 160px; }
+    }
+  </style>
+
   <script>
     (function () {
       'use strict';
+
+      /* ── HOSPITAL DATA ── */
+      var hospitals = {
+        norvic: {
+          tag: 'Multi-Specialty · International Hospital',
+          name: 'Norvic International Hospital',
+          loc: '📍 Thapathali, Kathmandu, Nepal',
+          img: 'https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=800&q=80',
+          desc: 'Established in 1993 by the Chaudhary Group, Norvic International Hospital is one of Nepal\'s premier tertiary-level private hospitals. Recognised as the most credible healthcare centre in the country, it has served over 2 million patients across Nepal and abroad, pioneering the private healthcare revolution.',
+          facts: [
+            { icon: '🏥', text: 'First private hospital in Nepal to introduce the Cardiac Catheterization Lab' },
+            { icon: '🔬', text: 'First hospital with NABL-accredited laboratory & ISO 9001:2015 certification' },
+            { icon: '🌿', text: 'Certified "Global Green and Healthy Hospital" — first private hospital in Nepal' },
+            { icon: '⚕️', text: 'Multi-specialty facility excelling in cardiology, nephrology, neurosurgery & diagnostics' },
+            { icon: '📞', text: '+977 1-5970032 · info@norvichospital.com' }
+          ],
+          link: 'https://norvichospital.com/'
+        },
+        mediciti: {
+          tag: 'Quaternary Care · Super-Specialty Hospital',
+          name: 'Nepal Mediciti',
+          loc: '📍 Nakhu, Lalitpur, Kathmandu Valley, Nepal',
+          img: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80',
+          desc: 'Nepal Mediciti is the largest private hospital in Nepal with 750 beds, offering world-class quaternary care. Founded to make quality healthcare accessible to all Nepalis, it combines the finest medical minds with advanced technology, aspiring to be the healthcare destination of choice in South Asia.',
+          facts: [
+            { icon: '🏨', text: '750-bed capacity — largest private hospital in Nepal' },
+            { icon: '🫀', text: 'Only private hospital in Nepal using ECMO for critical cardiac patients' },
+            { icon: '🧠', text: 'Centres of Excellence in oncology, neurology, cardiology, liver & kidney transplant' },
+            { icon: '🚁', text: 'Rooftop & ground helipads with 24/7 ground and air ambulance services' },
+            { icon: '🔬', text: '17 modular operation theatres, MRI 3.0 Tesla, 128-slice CT & 60+ OPDs' }
+          ],
+          link: 'https://www.nepalmediciti.com/'
+        },
+        deepjyoti: {
+          tag: 'Private Hospital · Regional Care',
+          name: 'Deepjyoti Hospital',
+          loc: '📍 Ghorahi, Dang District, Lumbini Province, Nepal',
+          img: 'https://images.unsplash.com/photo-1626315869436-d6781ba69d6e?w=800&q=80',
+          desc: 'Deepjyoti Hospital is a private healthcare institution located in Ghorahi, the administrative centre of Dang District in mid-western Nepal. Run by highly qualified doctors and specialist staff, it serves as a key regional facility providing general and specialised medical services to the Mid-Western community.',
+          facts: [
+            { icon: '⚕️', text: 'Services include internal medicine, general surgery, paediatrics, orthopaedics & gynaecology' },
+            { icon: '🩻', text: 'Radiology and anaesthesiology services available on-site' },
+            { icon: '📍', text: 'Located in Ghorahi — largest city and administrative HQ of Dang District, Lumbini Province' }
+          ],
+          link: ''
+        }
+      };
+
+      var panel      = document.getElementById('hosp-panel');
+      var overlay    = document.getElementById('hosp-overlay');
+      var closeBtn   = document.getElementById('hosp-close');
+      var panelTag   = document.getElementById('hosp-panel-tag');
+      var panelName  = document.getElementById('hosp-panel-name');
+      var panelLoc   = document.getElementById('hosp-panel-loc');
+      var panelImg   = document.getElementById('hosp-panel-img');
+      var panelDesc  = document.getElementById('hosp-panel-desc');
+      var panelFacts = document.getElementById('hosp-panel-facts');
+      var panelLink  = document.getElementById('hosp-panel-link');
+      var imgWrap    = document.getElementById('hosp-img-wrap');
+
+      function openPanel(key) {
+        var h = hospitals[key];
+        if (!h) return;
+        panelTag.textContent  = h.tag;
+        panelName.textContent = h.name;
+        panelLoc.textContent  = h.loc;
+        panelDesc.textContent = h.desc;
+        if (h.img) {
+          panelImg.src = h.img;
+          panelImg.alt = h.name;
+          imgWrap.style.display = '';
+        } else {
+          imgWrap.style.display = 'none';
+        }
+        panelFacts.innerHTML = h.facts.map(function(f) {
+          return '<div class="hosp-fact"><span class="hosp-fact-icon">' + f.icon + '</span><span>' + f.text + '</span></div>';
+        }).join('');
+        if (h.link) {
+          panelLink.href = h.link;
+          panelLink.classList.remove('hidden');
+        } else {
+          panelLink.classList.add('hidden');
+        }
+        panel.hidden = false;
+        requestAnimationFrame(function() { panel.classList.add('open'); });
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+      }
+
+      function closePanel() {
+        panel.classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(function() { panel.hidden = true; }, 320);
+      }
+
+      document.querySelectorAll('.hosp-link').forEach(function(el) {
+        el.addEventListener('click', function() { openPanel(el.getAttribute('data-hospital')); });
+      });
+      overlay.addEventListener('click', closePanel);
+      closeBtn.addEventListener('click', closePanel);
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !panel.hidden) closePanel();
+      });
 
       /* ── Active nav on scroll ── */
       var navHome = document.querySelector('a[href="#home"]');
