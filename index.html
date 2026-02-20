@@ -386,10 +386,10 @@
       z-index: 1;
       max-width: 1060px;
       margin: 0 auto;
-      padding: 4rem 2.8rem 5rem;
+      padding: 4.5rem 2.8rem 5.5rem;
     }
 
-    .exp-header { margin-bottom: 2.8rem; }
+    .exp-header { margin-bottom: 3.2rem; }
     .exp-label {
       font-size: 0.64rem;
       font-weight: 600;
@@ -407,107 +407,157 @@
     }
     .exp-title em { font-style: italic; color: var(--green); }
 
+    /* Two-column layout: label left, cards right */
     .exp-grid {
-      display: -webkit-box; display: flex;
-      -webkit-box-orient: vertical; flex-direction: column;
-      gap: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.8rem;
     }
 
     .cv-block {
-      display: -webkit-box; display: flex;
-      -webkit-box-orient: vertical; flex-direction: column;
-      gap: 0.5rem;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 0 2rem;
+      align-items: start;
     }
 
     .cv-label {
-      display: -webkit-box; display: flex;
-      -webkit-box-align: center; align-items: center;
-      gap: 0.45rem;
-      font-size: 0.61rem;
-      font-weight: 600;
+      font-size: 0.62rem;
+      font-weight: 700;
       letter-spacing: 1.8px;
       text-transform: uppercase;
-      color: var(--text-light);
-      margin-bottom: 0.2rem;
+      color: var(--green);
+      padding-top: 1.1rem;
+      line-height: 1.5;
+      position: sticky;
+      top: 80px;
     }
-    .cv-label::after {
+
+    .cv-entries {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+
+    /* Vertical timeline line */
+    .cv-entries::before {
       content: '';
-      -webkit-box-flex: 1; flex: 1;
-      height: 1px;
-      background: -webkit-linear-gradient(left, rgba(0,0,0,0.08), transparent);
-      background: linear-gradient(90deg, rgba(0,0,0,0.08), transparent);
+      position: absolute;
+      left: 18px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: linear-gradient(180deg,
+        rgba(26,122,74,0.4),
+        rgba(26,122,74,0.15) 80%,
+        transparent);
     }
 
     .cv-entry {
-      display: -webkit-box; display: flex;
-      -webkit-box-align: flex-start; align-items: flex-start;
-      gap: 0.7rem;
-      padding: 0.7rem 0.95rem;
-      background: var(--glass);
-      -webkit-backdrop-filter: blur(16px) saturate(160%);
-      backdrop-filter: blur(16px) saturate(160%);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--green);
-      border-radius: var(--r-sm);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 2px 10px rgba(0,0,0,0.04);
-      -webkit-transition: border-left-color 0.22s, -webkit-transform 0.22s, box-shadow 0.22s, background 0.22s;
-      transition: border-left-color 0.22s, transform 0.22s, box-shadow 0.22s, background 0.22s;
-      cursor: default;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.1rem;
+      padding: 1.1rem 1.3rem 1.1rem 0;
+      position: relative;
+      transition: transform 0.2s ease;
     }
-    .cv-entry:hover {
-      border-left-color: #b8902a;
-      -webkit-transform: translateX(4px);
-      transform: translateX(4px);
-      background: var(--glass-hover);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 6px 20px rgba(0,0,0,0.08);
-    }
+    .cv-entry:hover { transform: translateX(4px); }
 
+    /* Timeline node */
     .cv-dot {
-      width: 7px; height: 7px;
+      width: 9px; height: 9px;
       border-radius: 50%;
-      background: var(--green);
-      -webkit-flex-shrink: 0; flex-shrink: 0;
+      background: white;
+      border: 2px solid var(--green);
+      flex-shrink: 0;
       margin-top: 0.32rem;
-      box-shadow: 0 0 0 2px rgba(26,122,74,0.15);
+      position: relative;
+      z-index: 1;
+      transition: background 0.2s, transform 0.2s;
+      box-sizing: border-box;
+    }
+    .cv-entry:hover .cv-dot {
+      background: var(--green);
+      transform: scale(1.3);
     }
 
-    .cv-t { font-size: 0.8rem; font-weight: 600; color: var(--text); line-height: 1.3; }
-    .cv-s { font-size: 0.69rem; color: var(--text-sub); margin-top: 0.08rem; line-height: 1.3; }
+    .cv-body {
+      flex: 1;
+      background: rgba(255,255,255,0.58);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid rgba(255,255,255,0.85);
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      box-shadow:
+        0 1px 0 rgba(255,255,255,1) inset,
+        0 4px 20px rgba(13,82,48,0.06),
+        0 1px 4px rgba(0,0,0,0.03);
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+    .cv-entry:hover .cv-body {
+      background: rgba(255,255,255,0.78);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,1) inset,
+        0 8px 32px rgba(13,82,48,0.11),
+        0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .cv-t {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      letter-spacing: -0.15px;
+    }
+    .cv-s {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      margin-top: 0.2rem;
+      line-height: 1.5;
+      font-weight: 400;
+    }
 
     .cv-link {
-      color: inherit;
+      color: var(--green);
       text-decoration: none;
-      border-bottom: 1.5px solid rgba(26,122,74,0.28);
-      -webkit-transition: border-color 0.2s; transition: border-color 0.2s;
+      font-weight: 500;
+      transition: opacity 0.2s;
     }
-    .cv-link:hover { border-color: var(--green); }
+    .cv-link:hover { opacity: 0.7; }
 
     /* Languages */
     .lang-pills {
-      display: -webkit-box; display: flex;
-      -webkit-flex-wrap: wrap; flex-wrap: wrap;
-      gap: 0.4rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-self: start;
+      padding-top: 0.2rem;
     }
     .lang-pill {
-      font-size: 0.7rem; font-weight: 500;
+      font-size: 0.72rem;
+      font-weight: 500;
       color: var(--green);
       background: rgba(255,255,255,0.65);
-      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-      border: 1px solid rgba(26,122,74,0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(26,122,74,0.22);
       border-radius: 30px;
-      padding: 0.28rem 0.82rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-      -webkit-transition: all 0.2s; transition: all 0.2s;
-      min-height: 32px;
-      display: -webkit-inline-box; display: inline-flex;
-      -webkit-box-align: center; align-items: center;
+      padding: 0.3rem 0.9rem;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.9) inset, 0 1px 4px rgba(0,0,0,0.04);
+      transition: all 0.2s;
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      letter-spacing: 0.1px;
     }
     .lang-pill:hover {
       background: var(--green);
       color: white;
       border-color: var(--green);
-      box-shadow: 0 3px 10px rgba(26,122,74,0.25);
-      -webkit-transform: translateY(-1px); transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(26,122,74,0.3);
+      transform: translateY(-1px);
     }
 
     /* ── FOOTER ── */
@@ -552,6 +602,7 @@
       .photo-card { max-width: 240px; }
       .hero-title { font-size: clamp(1.6rem, 3.5vw, 2.2rem); }
       #experience { padding: 3rem 1.8rem 4rem; }
+      .cv-block { grid-template-columns: 120px 1fr; gap: 0 1.5rem; }
       .section-divider { padding: 0 1.8rem; }
       footer { padding: 1.2rem 1.8rem; }
     }
@@ -583,8 +634,10 @@
 
       .section-divider { padding: 0 1rem; }
       #experience { padding: 2.5rem 1rem 3.5rem; }
-      .exp-grid { gap: 1.5rem; }
-      .cv-entry:hover { -webkit-transform: none; transform: none; }
+      .exp-grid { gap: 1.8rem; }
+      .cv-block { grid-template-columns: 1fr; gap: 0.6rem 0; }
+      .cv-label { position: static; padding-top: 0; }
+      .cv-entry:hover { transform: none; }
 
       footer { padding: 1.2rem 1rem; gap: 0.5rem; }
       .fsep { display: none; }
@@ -714,68 +767,76 @@
       <!-- Education -->
       <div class="cv-block">
         <div class="cv-label">🎓 Education</div>
-        <div class="cv-entry">
-          <div class="cv-dot" aria-hidden="true"></div>
-          <div>
-            <div class="cv-t">Masters in Internal Medicine (M.D)</div>
-            <div class="cv-s"><a href="https://www.dali.edu.cn/english/" target="_blank" rel="noopener noreferrer" class="cv-link">Dali University</a>, China</div>
+        <div class="cv-entries">
+          <div class="cv-entry">
+            <div class="cv-dot" aria-hidden="true"></div>
+            <div class="cv-body">
+              <div class="cv-t">Masters in Internal Medicine (M.D)</div>
+              <div class="cv-s"><a href="https://www.dali.edu.cn/english/" target="_blank" rel="noopener noreferrer" class="cv-link">Dali University</a>, China</div>
+            </div>
           </div>
-        </div>
-        <div class="cv-entry">
-          <div class="cv-dot" aria-hidden="true"></div>
-          <div>
-            <div class="cv-t">Doctor of Medicine (M.D)</div>
-            <div class="cv-s"><a href="https://www.auf.edu.ph/" target="_blank" rel="noopener noreferrer" class="cv-link">Angeles University Foundation</a>, Philippines</div>
+          <div class="cv-entry">
+            <div class="cv-dot" aria-hidden="true"></div>
+            <div class="cv-body">
+              <div class="cv-t">Doctor of Medicine (M.D)</div>
+              <div class="cv-s"><a href="https://www.auf.edu.ph/" target="_blank" rel="noopener noreferrer" class="cv-link">Angeles University Foundation</a>, Philippines</div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Work Experience -->
       <div class="cv-block">
-        <div class="cv-label">💼 Professional Work Experience</div>
-        <div class="cv-entry">
-          <div class="cv-dot" aria-hidden="true"></div>
-          <div>
-            <div class="cv-t">Emergency Department Physician</div>
-            <div class="cv-s"><span class="hosp-link" data-hospital="norvic">Norvic International Hospital</span> · Kathmandu, Nepal</div>
+        <div class="cv-label">💼 Work Experience</div>
+        <div class="cv-entries">
+          <div class="cv-entry">
+            <div class="cv-dot" aria-hidden="true"></div>
+            <div class="cv-body">
+              <div class="cv-t">Emergency Department Physician</div>
+              <div class="cv-s"><span class="hosp-link" data-hospital="norvic">Norvic International Hospital</span> · Kathmandu, Nepal</div>
+            </div>
           </div>
-        </div>
-        <div class="cv-entry">
-          <div class="cv-dot" aria-hidden="true"></div>
-          <div>
-            <div class="cv-t">Coronary Care Unit (CCU) Physician</div>
-            <div class="cv-s"><span class="hosp-link" data-hospital="mediciti">Nepal Mediciti</span> · Kathmandu, Nepal</div>
+          <div class="cv-entry">
+            <div class="cv-dot" aria-hidden="true"></div>
+            <div class="cv-body">
+              <div class="cv-t">Coronary Care Unit (CCU) Physician</div>
+              <div class="cv-s"><span class="hosp-link" data-hospital="mediciti">Nepal Mediciti</span> · Kathmandu, Nepal</div>
+            </div>
           </div>
-        </div>
-        <div class="cv-entry">
-          <div class="cv-dot" aria-hidden="true"></div>
-          <div>
-            <div class="cv-t">General Physician</div>
-            <div class="cv-s"><span class="hosp-link" data-hospital="deepjyoti">Deepjyoti Hospital</span> · Ghorahi, Dang, Nepal</div>
+          <div class="cv-entry">
+            <div class="cv-dot" aria-hidden="true"></div>
+            <div class="cv-body">
+              <div class="cv-t">General Physician</div>
+              <div class="cv-s"><span class="hosp-link" data-hospital="deepjyoti">Deepjyoti Hospital</span> · Ghorahi, Dang, Nepal</div>
+            </div>
           </div>
-        </div>
-        <div class="cv-entry">
-          <div class="cv-dot" aria-hidden="true"></div>
-          <div>
-            <div class="cv-t">Participated in various community health campaigns</div>
+          <div class="cv-entry">
+            <div class="cv-dot" aria-hidden="true"></div>
+            <div class="cv-body">
+              <div class="cv-t">Community Health Campaigns</div>
+              <div class="cv-s">Participated in various outreach initiatives across Nepal</div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Other Attainments -->
       <div class="cv-block">
-        <div class="cv-label">🏅 Other Attainments</div>
-        <div class="cv-entry">
-          <div class="cv-dot" aria-hidden="true"></div>
-          <div>
-            <div class="cv-t">Leader, Nepalese Postgraduate Medical Interns</div>
-            <div class="cv-s">AUF Medical Center, Philippines</div>
+        <div class="cv-label">🏅 Attainments</div>
+        <div class="cv-entries">
+          <div class="cv-entry">
+            <div class="cv-dot" aria-hidden="true"></div>
+            <div class="cv-body">
+              <div class="cv-t">Leader, Nepalese Postgraduate Medical Interns</div>
+              <div class="cv-s">AUF Medical Center, Philippines</div>
+            </div>
           </div>
-        </div>
-        <div class="cv-entry">
-          <div class="cv-dot" aria-hidden="true"></div>
-          <div>
-            <div class="cv-t">Attended and organized numerous seminars and conferences</div>
+          <div class="cv-entry">
+            <div class="cv-dot" aria-hidden="true"></div>
+            <div class="cv-body">
+              <div class="cv-t">Seminars &amp; Conferences</div>
+              <div class="cv-s">Attended and organized numerous medical seminars and conferences</div>
+            </div>
           </div>
         </div>
       </div>
